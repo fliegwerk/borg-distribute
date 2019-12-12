@@ -18,8 +18,8 @@ To restrict users of accessing each other's repositories setup the .ssh/authoriz
 It's important to write everything in one line per key, otherwise SSH won't recognize the rule and your security will be compromised.
 
 # TODO
--Add usage help to any tool
--Automate the process of installing borg-distribute server-side
--Add script to create new repos (has to be done manually for now)
--Call rebuild-linker.sh with every ssh access
--Much more!
+- Add usage help to any tool
+- Automate the process of installing borg-distribute server-side
+- Add script to create new repos (has to be done manually for now)
+- Call rebuild-linker.sh with every ssh access
+- Much more!
