@@ -1,6 +1,32 @@
 # borg-distribute
 borg-distribute is a wrapper for the ingenious borg backup utility. Unfortunately this tool has no support for a server client architecture and other features, like multiple redundant backups distributed over multiple disks. borg-distribute handles the management of your repositories server-side and provides easy ways of pushing and retrieving backups from any client.
 
+## Philosophy
+
+The main feature of borg is the ability to do very fine-grained incremental backups efficiently, but this has a quite severe drawback: Any damage to the archive will result in total corruption as there's no redundancy. This is where borg-distribute comes into play: By creating archives on multiple disks and cycling through them we add another layer of security.
+
+New backups are always pushed onto the oldest archive available. This way we automatically cycle through all disks and wear them down evenly. If you want to retrieve information from your backup it will automatically be pulled from the newest release.
+
+## Server-side directory structure
+
+Consider a structure like this:
+
+    /home/borg
+    ├── partlist.txt
+    ├── disks
+    │   ├── 94047ea0-01 -> /mnt/disk1
+    │   ├── a4fc1b7e-01 -> /mnt/disk2
+    │   └── 34f5888d-01 -> /mnt/disk3
+    └── repos
+        ├── my-backup
+        │   ├── newest -> /mnt/disk3/backups/jan-hawk
+        │   └── oldest -> /mnt/disk2/backups/jan-hawk
+        └── another-backup
+            ├── newest -> /mnt/disk1/backups/seb-bak
+            └── oldest -> /mnt/disk3/backups/seb-bak
+            
+Here we have three disks for our backup storage available under /home/borg/disks for easier acces and symlinks to the newest and oldest instances of every backup repository respectively. The script `rebuild-links.sh` automatically creates this structure for us. All you have to supply is the file `partlist.txt` which is a collection of all partition UUIDs containing backups.
+
 # Installation
 ## SSH Access
 It's advised to create a new SSH keypair for every user of your borg backup system. Setup some sort of quick access in your .ssh/config like this:
