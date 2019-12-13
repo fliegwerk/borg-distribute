@@ -19,11 +19,11 @@ Consider a structure like this:
     │   └── 34f5888d-01 -> /mnt/disk3
     └── repos
         ├── my-backup
-        │   ├── newest -> /mnt/disk3/backups/jan-hawk
-        │   └── oldest -> /mnt/disk2/backups/jan-hawk
+        │   ├── newest -> /mnt/disk3/backups/my-backup
+        │   └── oldest -> /mnt/disk2/backups/my-backup
         └── another-backup
-            ├── newest -> /mnt/disk1/backups/seb-bak
-            └── oldest -> /mnt/disk3/backups/seb-bak
+            ├── newest -> /mnt/disk1/backups/another-backup
+            └── oldest -> /mnt/disk3/backups/another-backup
             
 Here we have three disks for our backup storage available under /home/borg/disks for easier acces and symlinks to the newest and oldest instances of every backup repository respectively. The script `rebuild-links.sh` automatically creates this structure for us. All you have to supply is the file `partlist.txt` which is a collection of all partition UUIDs containing backups.
 
